@@ -9,16 +9,17 @@ import FeedExplore from '../screens/FeedExplore'
 import Keranjang from '../screens/Keranjang'
 import Akun from '../screens/Akun'
 import AkunJual from '../screens/AkunJual'
-import Product from '../screens/include/Product'
-
+import Product from '../screens/Product'
+import Buy from '../screens/Buy'
 const RootStack = createStackNavigator({
     Home: { screen: HomeScreen },
     Feed: { screen: Feed },
     FeedExplore: { screen : FeedExplore},
     Keranjang: { screen: Keranjang},
-    Akun: { screen: Keranjang },
+    Akun: { screen: Akun },
     AkunJual: { screen: AkunJual},
-    Product: { screen: Product}
+    Product: { screen: Product},
+    Buy: {screen: Buy}
 },
 {
   initialRouteName: 'Home',
