@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component } from 'react';
-import { Dimensions, Image, View, Text, StyleSheet, ScrollView,TouchableOpacity } from 'react-native';
+import { Dimensions, Image, View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { Content, Footer, Header,Input, Container,  Item, } from 'native-base'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import Swiper from 'react-native-swiper'
@@ -10,15 +10,25 @@ import AwesomeButton from 'react-native-really-awesome-button'
 const Width= () => {Dimensions.get('window').width};
 // create a component
 
+function convertToRupiah(angka){
+    var rupiah = ''
+    var angkarev = angka.toString().split('').reverse().join('');
+    for(var i=0;i<angkarev.length;i++)
+        if(i%3 == 0)
+            rupiah +=angkarev.substr(i,3)+'.';
+            return 'Rp. '+rupiah.split('', rupiah.length-1).reverse().join('');
+}
 
 const window = Dimensions.get('window');
 class Product extends Component {
     constructor(props){
         super(props);
+
     }
     render() {
         
         const {navigation} = this.props;
+        const key = navigation.getParam("itemKey", "")
         const name = navigation.getParam("itemName", "")
         const img = navigation.getParam("itemImage", "")
         const price = navigation.getParam("itemPrice", "")
@@ -86,8 +96,8 @@ class Product extends Component {
                             </View>
                             <View style={{flex: 1, flexDirection: 'row', borderBottomColor: '#dbdbdb', borderBottomWidth: 1,  marginRight:4, marginLeft:10}}>
                                 <View style={{flex: 1.5}}>
-                                    <Text style={{fontSize: 15}}>{price}</Text>
-                                    <Text style={{color: 'red',textDecorationLine: 'line-through',fontSize: 20, fontWeight:'bold'}}> {pricediscount}</Text>
+                                    <Text style={{fontSize: 15,textDecorationLine: 'line-through', color: 'red',}}>{convertToRupiah(price)}</Text>
+                                    <Text style={{fontSize: 20, fontWeight:'bold'}}> {convertToRupiah(pricediscount)}</Text>
                                 </View>
                                 <View style={{flex: 1}}>
                                 
@@ -130,9 +140,15 @@ class Product extends Component {
                             <AwesomeButton progress onPress={() => this.props.navigation.navigate("Buy")}>Beli Sekarang</AwesomeButton>
                         </View>
                         <View style={{marginTop: 4}}>
-                            <AwesomeButton progress onPress={() => this.props.navigation.navigate("Keranjang")} > Tambahkan Ke Keranjang </AwesomeButton>
-                        </View>
+                            <AwesomeButton progress onPress={() => this.props.navigation.navigate("Keranjang",{
+                                itemKey: key,
+                                itemPrice: pricediscount,
+                                itemName: name,
+                                itemImage: img,
+                                itemDetails: detail,
+                            })} > Tambahkan Ke Keranjang </AwesomeButton>
                     </View>
+                        </View>
                 </Footer>
             </Container>
         );

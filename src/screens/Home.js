@@ -8,6 +8,14 @@ import Swiper from 'react-native-swiper'
 import CardItems from '../components/RecommendedCardItem'
 // create a component
 const window = Dimensions.get('window')
+function convertToRupiah(angka){
+    var rupiah = ''
+    var angkarev = angka.toString().split('').reverse().join('');
+    for(var i=0;i<angkarev.length;i++)
+        if(i%3 == 0)
+            rupiah +=angkarev.substr(i,3)+'.';
+            return 'Rp. '+rupiah.split('', rupiah.length-1).reverse().join('');
+}
 
 class Home extends Component {
     constructor(props) {
@@ -17,45 +25,44 @@ class Home extends Component {
                 key: "a",
                 name: 'Laptop AllienWare',
                 img:require('../assets/laptop.png'),
-                price:'Rp. 25.000.000',
-                pricediscount:'Rp.20.000.000',
+                price:'25000000',
+                pricediscount:'20000000',
                 detail:'Laptop Yang murah dan terjangkau',
-                plan: "Product",
 
             },{
                 key:"b",
                 name: "Samsung Galaxy S9 RAM 6/64",
                 img:require('../assets/samsungs9.jpg'),
-                price:'Rp. 9.000.000',
                 detail:'Hp Murah dan terjangkau',
-                pricediscount:'Rp.8.000.000'
+                price:'9000000',
+                pricediscount:'8000000'
             },{
                 key :"c",
                 name: 'Laptop Acer E5-475G',
                 img:require('../assets/AcerE5.jpg'),
-                price:'Rp. 8.000.000',
-                pricediscount:'Rp.7.000.000',
+                price:'8000000',
+                pricediscount:'7000000',
                 detail:'Laptop Yang murah dan terjangkau'
             },{
                 key :"d",
                 name: 'Laptop AllienWare',
                 img:require('../assets/laptop.png'),
-                price:'Rp. 25.000.000',
-                pricediscount:'Rp.20.000.000',
+                price:'25000000',
+                pricediscount:'20000000',
                 detail:'Laptop Yang murah dan terjangkau'
             },{
                 key :"e",
                 name: 'Laptop AllienWare',
                 img:require('../assets/laptop.png'),
-                price:'Rp. 25.000.000',
-                pricediscount:'Rp.20.000.000',
+                price:'25000000',
+                pricediscount:'20000000',
                 detail:'Laptop Yang murah dan terjangkau'
             },{
                 key :"f",
                 name: 'Laptop AllienWare',
                 img:require('../assets/laptop.png'),
-                price:'Rp. 25.000.000',
-                pricediscount:'Rp.20.000.000',
+                price:'25000000',
+                pricediscount:'20000000',
                 detail:'Laptop Yang murah dan terjangkau',
             }
             ],menuanimation: [{
@@ -115,7 +122,7 @@ class Home extends Component {
                     <View style={styles.headerSearch}>
                         <Icon name='widgets' style={{fontSize: 25}}/>
                         <View style={styles.headerSearchMiddle}>
-                            <Item style={{ backgroundColor: 'white', top: 10, paddingHorizontal: 10, borderRadius: 50}}>
+                            <Item style={styles.item}>
                                 <Icon name="search" style={{fontSize:15, paddingTop: 5}} />
                                 <Input placeholder="Search" />
                             </Item>
@@ -171,7 +178,7 @@ class Home extends Component {
                                                 {item.text}
                                             </Text>
                                         </Right>
-                                </View>
+                                    </View>
                                 </TouchableOpacity>
                             )}
                             />
@@ -180,7 +187,7 @@ class Home extends Component {
                         <View style={{borderTopWidth: 4, marginTop:2, borderTopColor: '#dbdbdb', width:window.width}}> 
                             <View style={{flex: 1, fontSize: 14, borderBottomColor: '#dbdbdb', borderBottomWidth: 1}}>
                                 <Body>
-                                    <Text style={{fontSize: 20, fontFamily: 'arial',}}>Product</Text>
+                                    <Text style={{fontSize: 20, fontFamily: 'arial',}}>Produk</Text>
                                 </Body>
                                 <View>
                                     <TouchableOpacity>
@@ -194,10 +201,11 @@ class Home extends Component {
                                 data={this.state.itemDetail}
                                 renderItem={({ item }) => (
                                     <CardItems itemImage= {item.img}
-                                        itemPrice= {item.price}
-                                        itemPriceDiscount={item.pricediscount}
+                                        itemPrice= {convertToRupiah(item.price)}
+                                        itemPriceDiscount={convertToRupiah(item.pricediscount)}
                                         onPress={() => {
                                             this.props.navigation.navigate("Product",{
+                                                itemKey: item.key,
                                                 itemImage: item.img,
                                                 itemPrice: item.price,
                                                 itemPriceDiscount: item.pricediscount,
@@ -254,7 +262,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent', 
         borderRadius: 5
     },
-    swiper: {
+    swiper: { 
         height: 100, 
         borderRadius: 4
     },
@@ -263,6 +271,12 @@ const styles = StyleSheet.create({
         height: null, 
         width: null, 
         resizeMode: 'contain'
+    },
+    item: {
+        backgroundColor: 'white',
+        top: 10,
+        paddingHorizontal: 10, 
+        borderRadius: 50
     }
 });
 

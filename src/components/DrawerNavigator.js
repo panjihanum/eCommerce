@@ -6,10 +6,10 @@ import HomeScreen from '../screens/Home'
 import Feed from '../components/TopNavigator'
 import OS from '../screens/OS'
 import Keranjang from '../screens/Keranjang'
-import Akun from '../components/TopNavigator2'
+import Akun from '../screens/Akun'
 
 
-const DrawerNavigators = DrawerNavigator({
+const DrawerNavigator = DrawerNavigator({
     Home: { screen: HomeScreen},
     Feed: { screen: Feed},
     OS: { screen: OS },

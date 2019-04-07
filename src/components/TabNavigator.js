@@ -6,7 +6,7 @@ import HomeScreen from '../screens/Home'
 import Feed from '../components/TopNavigator'
 import OS from '../screens/OS'
 import Keranjang from '../screens/Keranjang'
-import Akun from '../components/TopNavigator2'
+import Akun from '../screens/Akun'
 import { createAppContainer } from 'react-navigation';
 
 
@@ -75,6 +75,7 @@ const TabNavigator = createMaterialBottomTabNavigator({
   },{
       shifting: true,
       iconShowing : true,
+      inactiveTintColor: '#B6B6B6',
       initialRoute:'Home',
       barStyle: {
         backgroundColor: 'white',
@@ -82,7 +83,6 @@ const TabNavigator = createMaterialBottomTabNavigator({
     },
 
       activeTintColor: '#00FF2A',
-      inactiveTintColor: '#B6B6B6',
   });
 
 const MyNavigator = createAppContainer(TabNavigator)
