@@ -1,10 +1,13 @@
 //import liraries
 import React, { Component } from 'react';
-import { Dimensions,View, Text, StyleSheet, TouchableOpacity, FlatList, ScrollView, Button } from 'react-native';
-import { Container, Header, Left, Content, Card, CardItem, Right,  Footer, Body, } from 'native-base'
+import { View, Text,Button, StyleSheet, FlatList, Dimensions, ScrollView, Image, TouchableOpacity, TextInput} from 'react-native';
+import { Container,  Left, Content, Header, Card, CardItem, Body, Right, Footer} from 'native-base'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
-const window = Dimensions.get('window')
+
+
+
+const window= Dimensions.get('window')
 function convertToRupiah(angka){
     var rupiah = ''
     var angkarev = angka.toString().split('').reverse().join('');
@@ -14,191 +17,150 @@ function convertToRupiah(angka){
             return 'Rp. '+rupiah.split('', rupiah.length-1).reverse().join('');
 }
 
-// create a component
 class Buy extends Component {
     constructor(props){
         super(props);
-        this.state= {
-            name: "Test",
-            totalharga: 100000,
-            totaltagihan: 100000,
+        this.state={
+            totalprice: 0,
+            
         }
     }
 
 
+    AddData(){
+        const {navigation} = this.props;
+        const totalPrice = navigation.getParam("itemTotalPrice", "")
+        this.setState({
+            totalprice: totalPrice
+        })
+    }
+
+    componentDidMount(){
+        const {navigation} = this.props;
+        this.focusListener = navigation.addListener('willFocus', () => {
+            this.AddData();
+        })
+    }
+    
     render() {
         return (
-            <Container>
+            <Container style={styles.container}>
                 <Header style={styles.header}>
-                    <Left style={styles.Left}>
-                        <Icon name="forward" style={styles.icon} />
-                        <Text style={styles.textHeader}>CheckOut</Text>
-                    </Left>
-                    <Body>
 
-                    </Body>
                 </Header>
                 <Content style={styles.content}>
-                    <ScrollView>
-                        <Card style={styles.card}>
-                            <CardItem>
-                                <View>
-                                    <Text style={styles.promo}>Gunakan Kode Promo</Text>
-                                </View>
-                            </CardItem>
-                        </Card>
-                        <Card style={styles.card}>
-                            <CardItem header bordered>
-                                <Text style={styles.cardHeader}> Tujuan Pengiriman </Text>
-                            </CardItem>
-                            <CardItem style={styles.carditem}>
-                                <Text style={styles.carditemheader}>Rumah</Text>
-                                <Text style={styles.carditemnama}>{this.state.nama}</Text>
-                                <Text style={styles.carditemalamat}>{this.state.alamat}</Text>
-                                <View style={styles.CardItemFooter}>
-                                    <TouchableOpacity>
-                                        <Card>
-                                            <Text style={styles.carditemfooter}> Kirim ke Banyak Alamat</Text>
-                                        </Card>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity>
-                                        <Card>
-                                            <Text style={styles.carditemfooter}> Ganti Alamat</Text>
-                                        </Card>
-                                    </TouchableOpacity>
-                                </View>
-                            </CardItem>
-                        </Card>
-                        <FlatList
-                            data = {this.state.data}
-                            renderItem={({item}) => (
-                                <View>
-                                    
-                                </View>
-                            )}
-                        />
-
-                    </ScrollView>
-
-                    <Card style={styles.card}>
-                        <Left>
-                            <Text style={styles.textdonasi}>TopDonasi200</Text>
-                        </Left>
-                    </Card>
-                    <Card style={styles.card}>
-                        <CardItem header bordered>
-                            <Left>
-                                <Text>Total Harga {this.state.jumlahbarang} (Barang)</Text>
-                            </Left>
-                            <Body>
-
-                            </Body>
-                            <Right>
-                                <Text style={styles.TotalHarga}>{convertToRupiah(this.state.totalharga)}</Text>
-                            </Right>
-                        </CardItem>
-                    </Card>
+                <ScrollView>
+                </ScrollView>
                 </Content>
-                <Footer style={styles.footer}>
-                    <Left style={{flexDirection: 'column'}}>
-                        <Text style={{fontSize: 12, color: '#dbdbdb'}} > Total Tagihan</Text>
-                        <Text style={{fontSize: 15, color: 'red', fontWeight:'bold'}} >{convertToRupiah(this.state.totaltagihan)}</Text>
-                    </Left>
-                    <Body>
-
-                    </Body>
-                    <Right>
-                    <Button color='#5BAD52' title='Pilih Pembayaran' style={{}} />   
-                    </Right>
-                </Footer>
+                    <Footer style={{backgroundColor: 'white', borderColor:'#dbdbdb', borderWidth: 1,}}>
+                        <Left>
+                            <Text style={styles.totalharga} >Total Harga</Text>
+                            <Text style={styles.pricechange}>{convertToRupiah(this.state.totalprice)}</Text>
+                        </Left>
+                        <Right>
+                            <Button onPress={() => this.props.navigation.navigate('Buy')} color='#5BAD52' title='Bayar' style={{}} />       
+                        </Right>
+                    </Footer>
             </Container>
-        );
+        )
     }
 }
+
 
 // define your styles
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#2c3e50',
+        backgroundColor: 'white',
     },
-    content:{
+    header:{
+        backgroundColor: 'white', 
+        borderBottomColor: "#dbdbdb", 
+        borderBottomWidth: 3,
+    },
+    left: {
+        marginLeft: 5,
+        fontSize: 12
+    },
+    content: {
+        marginLeft: 6,
+        marginRight: 6
+    },
+    marginLeft: 5,
+        card: {
         marginRight: 5,
-        marginLeft: 5
     },
-    Left: {
-        flexDirection: 'row',
-        fontSize:20,
+    text: {
+        fontSize:14,
+        color: 'green'
     },
-    icon: {
-      fontSize: 20,
-      marginRight: 20  
-    },
-    textHeader: {
-        fontSize: 20,
-        
-    },
-    header: {
-        backgroundColor: 'white',
-        borderBottomColor: '#dbdbdb',
-        borderBottomWidth: 4,
-    },
-    footer: {
-        backgroundColor: 'white',
-        borderTopColor: '#dbdbdb',
-        borderTopWidth: 3,
-    },
-    promo: {
-        fontSize: 15,
-        color: 'green',
-        fontWeight: 'bold',
-    },
-    cardHeader: {
-        fontSize: 13,
-        fontWeight: 'bold',
-    },
-    card: {
-        marginRight: 3,
-        marginLeft: 3,
-        
-    },
-    carditem:{
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-    },
-    carditemheader: {
-        fontSize: 13,
-        fontWeight: 'bold',
-    },
-    carditemnama:{
-        fontSize: 13,
-        fontWeight: 'bold',
+    penjual: {
+        fontSize: 12,
         color: '#dbdbdb'
     },
-    carditemalamat: {
-        fontSize: 13,
+    penjualObject: {                                                    
+        fontSize: 12,
+        color: 'black',
+        fontWeight: 'bold',
     },
-    CardItemFooter: {
-        flexDirection:'row',
+    left: {
+        marginLeft: 5,
+        fontSize: 12
+    },
+    card: {
+        width: window.width/1.05, 
+    },
+    text: {
+        fontSize:14,
+        color: 'green',
+        marginLeft: 4
+    },
+    penjual: {
+        fontSize: 12,
+        color: '#dbdbdb'
+    },
+    penjualObject: {
+        fontSize: 12,
+        color: 'black',
+        fontWeight: 'bold',
+    },
+    icon: {
+        fontSize:20, 
+        justifyContent: 'center'
+    },
+    icons: {
+        fontSize: 25,
+        bottom: 8
+    },
+    incdecview:{
+        flexDirection: 'row',
         justifyContent: 'center',
-        width: window.width/1.1,
+        left: 40
+    },
+    incdec: {
+        justifyContent:"center", 
+        height: 25
+    },
+    img: {
+        height: 40,
+        width: 40
+    }, 
+    textInput: {
+        height: 40,
         alignItems: 'center',
-    },
-    carditemfooter: {
-        height: 40,
-        width: window.width/2.5,
         textAlign: 'center',
-        borderRadius: 8,
+        bottom: 2,
+        fontSize: 12
     },
-    carditemfooters: {
-        height: 40,
-        width: window.width/2.5,
-        textAlign: 'center',
-        borderRadius: 8,
+    totalharga:{
+        justifyContent:"center", 
+        height: 25
+    },
+    pricechange: {
+        fontSize:14, 
+        color:'#dbdbdb'
     }
-
-
 });
-
 //make this component available to the app
 export default Buy;
+

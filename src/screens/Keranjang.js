@@ -41,6 +41,7 @@ class Keranjang extends Component {
             })
             if(findKey === -1){
             this.setState({
+                pricechange: Number(this.state.pricechange) + Number(price),
                 data: [
                     ...this.state.data,
                     {
@@ -49,7 +50,7 @@ class Keranjang extends Component {
                         img: img,
                         name: name,
                         detail: detail,
-                        quantity: 0
+                        quantity: 1
                     }
                 ]
             })
@@ -161,7 +162,6 @@ class Keranjang extends Component {
         }
 
     _onChangeText = (key, value) =>{
-
         const data = []
         this.state.data.forEach((val, i) => {
             if(val.key === key){
@@ -194,71 +194,74 @@ class Keranjang extends Component {
     }
     
     render() {
+
         return (
+            
             <Container style={styles.container}>
-                <Header style={{backgroundColor: 'white', borderBottomColor: "#dbdbdb", borderBottomWidth: 3,}}>
+                <Header style={styles.header}>
 
                 </Header>
-                <Content>
-                <ScrollView>
-                    <Card style={styles.card}>
-                        <CardItem>
-                            <Left style={styles.left}>
-                                <Icon name='archive' style={styles.icon} />
-                                <Text style={styles.text} > Gunakan Kode Promo atau Kupon</Text>         
-                            </Left>
-                        </CardItem>
-                    </Card>
-                    <FlatList 
-                    data = {this.state.data}
-                    renderItem={({item}) => (
-                        <Card style={{flex: 1, height: window.height/5, width: window.width/1.15, marginLeft: 5, marginRight: 5,}}>
-                            <CardItem header>
-                                <Text style={styles.penjual}> penjual: </Text>
-                                <Text style={styles.penjualObject}>Panji Hanum</Text>
-                        </CardItem>
-                        <CardItem>
-                            <View style={{flexDirection: 'row',}}>
-                    
-                                <Image source={item.img} style={{height: 40, width: 40}} />
-                                <Body>
-                                    <Text style={styles.text}>{item.name} </Text>
-                                    <Text style={styles.text}>{convertToRupiah(item.price)}</Text>
-                                </Body>
-                                <View style={{left: 25, height: 35,textAlign:'center', flexDirection: 'row',}}>
-                                    <Card style={{justifyContent:"center"}}>
-                                        <TouchableOpacity onPress={() => this._decrementData(item.key)}>
-                                            <Icon name='arrow-back' style={{fontSize: 20}} />
-                                        </TouchableOpacity >
-                                    </Card>
-                                    <TextInput style={styles.textInput} onChangeText={(val) => this._onChangeText(item.key, val)}>{item.quantity}</TextInput>
-                                    <Card>    
-                                        <TouchableOpacity onPress={() => this._incrementData(item.key)} > 
-                                            <Icon name='arrow-forward' style={{fontSize: 20,}} />
-                                        </TouchableOpacity>
-                                    </Card>
-                                </View>
-                                <Right>
-                                    <TouchableOpacity onPress={() => this._onDelete(item.key)}>
-                                        <Icon name="delete" style={{fontSize: 25}} />
-                                    </TouchableOpacity>
-                                </Right>
-                            </View>
-                        </CardItem>
-                    </Card> 
-                    )}
-                />
-                </ScrollView>
+                <Content style={styles.content}>
+                    <ScrollView>
+                        <Card style={styles.card}>
+                            <CardItem>
+                                <Left style={styles.left}>
+                                    <Icon name='archive' style={styles.icon} />
+                                    <Text style={styles.text} > Gunakan Kode Promo atau Kupon</Text>         
+                                </Left>
+                            </CardItem>
+                        </Card>
+                        <FlatList 
+                        data = {this.state.data}
+                        renderItem={({item}) => (
+                            <Card style={styles.card}>
+                                <CardItem header bordered>
+                                    <Text style={styles.penjual}> penjual: </Text>
+                                    <Text style={styles.penjualObject}>Panji Hanum</Text>
+                                </CardItem>
+                                <CardItem>
+                                    <View style={{flexDirection: 'row',}}>
+                                        <Image source={item.img} style={styles.img} />
+                                            <Body>
+                                            <Text style={styles.text}>{item.name} </Text>
+                                            <Text style={styles.text}>{convertToRupiah(item.price)}</Text>
+                                        </Body>
+                                        <View style={styles.incdecview}>
+                                            <Card style={styles.incdec}>
+                                                <TouchableOpacity onPress={() => this._decrementData(item.key)}>
+                                                    <Icon name='arrow-back' style={styles.icon} />
+                                                </TouchableOpacity>
+                                            </Card>
+                                            <TextInput style={styles.textInput} onChangeText={(val) => this._onChangeText(item.key, val)}>{item.quantity}</TextInput>
+                                            <Card style={styles.incdec}>    
+                                                <TouchableOpacity onPress={() => this._incrementData(item.key)} > 
+                                                        <Icon name='arrow-forward' style={styles.icon} />
+                                                </TouchableOpacity>
+                                            </Card>
+                                        </View>
+                                        <Right>
+                                                <TouchableOpacity onPress={() => this._onDelete(item.key)}>
+                                                <Icon name="delete" style={styles.icons} />
+                                            </TouchableOpacity>
+                                        </Right>
+                                    </View>
+                                </CardItem>
+                            </Card> 
+                        )}
+                    />
+                    </ScrollView>
                 </Content>
-                    <Footer style={{backgroundColor: 'white', borderColor:'#dbdbdb', borderWidth: 1,}}>
-                        <Left>
-                            <Text style={{fontSize:17, color:'#5BAD52'}} >Total Harga</Text>
-                            <Text style={{fontSize:14, color:'#dbdbdb'}}>{convertToRupiah(this.state.pricechange)}</Text>
-                        </Left>
-                        <Right>
-                            <Button color='#5BAD52' title='Checkout' style={{}} />       
-                        </Right>
-                    </Footer>
+                <Footer style={styles.footer}>
+                    <Left>
+                        <Text style={styles.totalharga} >Total Harga</Text>
+                        <Text style={styles.pricechange}>{convertToRupiah(this.state.pricechange)}</Text>
+                    </Left>
+                    <Right>
+                        <Button onPress={() => this.props.navigation.navigate('Buy',{
+                        itemTotalPrice: Number(this.state.pricechange),
+                        })} color='#5BAD52' title='Checkout' style={{}} />       
+                    </Right>
+                </Footer>
             </Container>
         )
     }
@@ -271,8 +274,10 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'white',
     },
-    left: {
-        marginLeft: 5,
+    header:{
+        backgroundColor: 'white', 
+        borderBottomColor: "#dbdbdb", 
+        borderBottomWidth: 3,
         fontSize: 12
     },
     content: {
@@ -301,8 +306,7 @@ const styles = StyleSheet.create({
         fontSize: 12
     },
     card: {
-        marginLeft: 5,
-        marginRight: 5,
+        width: window.width/1.05, 
     },
     text: {
         fontSize:14,
@@ -322,6 +326,43 @@ const styles = StyleSheet.create({
         fontSize:20, 
         justifyContent: 'center'
     },
+    icons: {
+        fontSize: 25,
+        bottom: 8
+    },
+    incdecview:{
+        flexDirection: 'row',
+        justifyContent: 'center',
+        left: 40
+    },
+    incdec: {
+        justifyContent:"center", 
+        height: 25
+    },
+    img: {
+        height: 40,
+        width: 40
+    }, 
+    textInput: {
+        height: 40,
+        alignItems: 'center',
+        textAlign: 'center',
+        bottom: 2,
+        fontSize: 12
+    },
+    totalharga:{
+        justifyContent:"center", 
+        height: 25
+    },
+    pricechange: {
+        fontSize:14, 
+        color:'#dbdbdb'
+    },
+    footer: {
+        backgroundColor: 'white', 
+        borderColor:'#dbdbdb', 
+        borderWidth: 1,
+    }
 });
 //make this component available to the app
 export default Keranjang;

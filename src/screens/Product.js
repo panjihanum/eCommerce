@@ -71,7 +71,7 @@ class Product extends Component {
                                 /> 
                             </View>
                         </Swiper>
-                        <View style={{height:80, flexDirection:'row', backgroundColor:'#dbdbdb'}}>
+                        <View style={styles.viewStock}>
                             <View style={{flex: 1, flexDirection:'column'}}>
                                 <View style={{flex: 1, backgroundColor:'red',  borderTopRightRadius: 10, borderBottomRightRadius: 50,}}>
                                     <Text style={{textAlign:'center', marginTop: 5, fontSize: 15, color:'white'}}>
@@ -117,10 +117,10 @@ class Product extends Component {
                                 <Text style={{fontSize: 18, fontWeight:'bold'}}>
                                     Informasi Produk
                                 </Text>
-                                <Text style={{fontSize:14, color:'#dbdbdb', marginTop: 10}}>
+                                <Text style={styles.textDetail}>
                                     Min.Pembelian :
                                 </Text>
-                                <Text style={{fontSize:14, color:'#dbdbdb', marginTop: 10}}>
+                                <Text style={styles.textDetail}>
                                     Kondisi :
                                 </Text>
                                 <Text style={{fontSize:18, fontWeight:'bold'}}>
@@ -133,22 +133,16 @@ class Product extends Component {
                         </View>
                     </ScrollView>
                 </Content>
-                <Footer style={{backgroundColor: 'white', borderColor: '#dbdbdb', borderWidth: 3}}>
-                    <View style={{flexDirection: 'row'}}>
-
-                        <View style={{marginRight: 10, marginTop: 4}}>
-                            <AwesomeButton progress onPress={() => this.props.navigation.navigate("Buy")}>Beli Sekarang</AwesomeButton>
-                        </View>
-                        <View style={{marginTop: 4}}>
-                            <AwesomeButton progress onPress={() => this.props.navigation.navigate("Keranjang",{
-                                itemKey: key,
-                                itemPrice: pricediscount,
-                                itemName: name,
-                                itemImage: img,
-                                itemDetails: detail,
-                            })} > Tambahkan Ke Keranjang </AwesomeButton>
+                <Footer style={styles.footer}>
+                    <View style={styles.footerview}>
+                        <AwesomeButton progress onPress={() => this.props.navigation.navigate("Keranjang",{
+                            itemKey: key,
+                            itemPrice: pricediscount,
+                            itemName: name,
+                            itemImage: img,
+                            itemDetails: detail,
+                        })} > Tambahkan Ke Keranjang </AwesomeButton>
                     </View>
-                        </View>
                 </Footer>
             </Container>
         );
@@ -166,6 +160,11 @@ const styles = StyleSheet.create({
     image: {
         height: (window.height/2),
         width: window.width,
+    },
+    viewStock: {
+        height:80, 
+        flexDirection:'row', 
+        backgroundColor:'#dbdbdb'
     },
     headerSearch:{ 
         position: 'absolute',
@@ -192,7 +191,20 @@ const styles = StyleSheet.create({
         height: null, 
         width: null, 
         resizeMode: 'contain'
-    }
+    },
+    footer:{
+        backgroundColor: 'transparent',
+        width: window.width 
+    },
+    footerview:{
+        width: window.width/1.05,
+        alignItems: 'center',
+        borderRadius: 25
+    },
+    textDetail:{
+        fontSize:14, color:'#dbdbdb', 
+        marginTop: 10
+    },
 });
 
 //make this component available to the app

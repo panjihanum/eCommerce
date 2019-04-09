@@ -117,42 +117,39 @@ class Home extends Component {
 
     render() {
         return (
-            <Container style={{height:'100%'}}>
+            <Container style={styles.container}>
                 <Header style={styles.header}>
-                    <View style={styles.headerSearch}>
-                        <Icon name='widgets' style={{fontSize: 25}}/>
-                        <View style={styles.headerSearchMiddle}>
-                            <Item style={styles.item}>
-                                <Icon name="search" style={{fontSize:15, paddingTop: 5}} />
-                                <Input placeholder="Search" />
-                            </Item>
-                    </View>
-                    <Icon name='favorite' style={{fontSize: 25}} />
-                    <Icon name='question-answer' style={{fontSize: 25}} />
-                    <Icon name='notifications' style={{fontSize: 25}} />
-                    </View>
+                    <Left>
+                            <Icon name='widgets' style={{fontSize: 25}}/>
+                    </Left>
+                    <Body>
+                        <Item style={styles.item}>
+                            <Icon name="search" style={{fontSize:15, paddingTop: 5}} />
+                            <Input placeholder="Search" />
+                        </Item>
+                    </Body>
+                    <Right>
+                        <Icon name='favorite' style={{fontSize: 25, marginRight: 15}} />
+                        <Icon name='question-answer' style={{fontSize: 25, marginRight: 15}} />
+                        <Icon name='notifications' style={{fontSize: 25}} />
+                    </Right>
                 </Header>
                 <Content  style={styles.content}>
-                    
                     <ScrollView>
-                        <View style={{ height: 50,  flexDirection: 'row', backgroundColor: 'white'}}>
-                            <View style={{flex: 1}}></View>
-                            <View style={{flex: 1, backgroundColor: '#dbdbab'}}></View>
-                        </View>
                         <Swiper style={styles.swiper} autoplay={true}>
-                            <View style={{flex: 1}}>
+                            <View style={styles.view}>
                                 <Image
                                     style={styles.imgSwiper}
                                     source={require('../assets/swiper_1.jpg')}
                                 />
                             </View>
-                            <View style={{flex: 1}}>
+                            <View style={styles.view}>
                                 <Image
                                     style={styles.imgSwiper}
                                     source={require('../assets/swiper_3.jpg')}
                                 />
                             </View>
-                            <View style={{flex: 1}}>
+                            <View style={styles.view}>
                                 <Image
                                     style={styles.imgSwiper}
                                     source={require('../assets/swiper_2.jpg')}
@@ -168,12 +165,12 @@ class Home extends Component {
                             data={this.state.menuanimation}
                             numColumns = '5'
                             renderItem={({item}) => (
-                                <TouchableOpacity onPress = {() => {this.props.navigation.navigate("Product")}}>
-                                    <View style={{ flexDirection: 'column', borderRadius: 5, height: 60, width:(window.width/5.3),  borderColor: '#dbdbdb', borderWidth: 2, marginLeft: 3, alignItems:'center'}}>
-                                        <View style={{flex: 1}}>
-                                            <Icon name={item.icon} style={{fontSize: 30,  alignItems: 'center',}} />
+                                <TouchableOpacity>
+                                    <View style={styles.iconview}>
+                                        <View style={styles.view}>
+                                            <Icon name={item.icon} style={styles.icon} />
                                         </View>
-                                        <Right style={{flex: 1}}>
+                                        <Right style={styles.view}>
                                             <Text style={{fontSize: 9, textAlign: 'center'}}>
                                                 {item.text}
                                             </Text>
@@ -184,18 +181,13 @@ class Home extends Component {
                             />
                         </View>
                         {/* Product */}
-                        <View style={{borderTopWidth: 4, marginTop:2, borderTopColor: '#dbdbdb', width:window.width}}> 
-                            <View style={{flex: 1, fontSize: 14, borderBottomColor: '#dbdbdb', borderBottomWidth: 1}}>
+                        <View style={styles.product}> 
+                            <View style={styles.produkview}>
                                 <Body>
                                     <Text style={{fontSize: 20, fontFamily: 'arial',}}>Produk</Text>
                                 </Body>
-                                <View>
-                                    <TouchableOpacity>
-                                        <Text style={{fontSize: 15, textAlign: 'right', color:'green'}}> Lihat Semua</Text>
-                                    </TouchableOpacity>
-                                </View>
                             </View>
-                            <View style={{ flex: 1, flexDirection:'row'}}>
+                            <View style={styles.produksview}>
                                 <FlatList
                                 contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}
                                 data={this.state.itemDetail}
@@ -206,10 +198,10 @@ class Home extends Component {
                                         onPress={() => {
                                             this.props.navigation.navigate("Product",{
                                                 itemKey: item.key,
+                                                itemName: item.name,
                                                 itemImage: item.img,
                                                 itemPrice: item.price,
                                                 itemPriceDiscount: item.pricediscount,
-                                                itemName: item.name,
                                                 itemDetail: item.detail,
                                             })
                                         }}
@@ -219,7 +211,7 @@ class Home extends Component {
                                 />
                             </View>
                         </View >
-                        <View style={{  borderTopWidth: 5, borderTopColor: '#dbdbdb'}}>
+                        <View style={styles.views}>
 
                         </View>
                     </View>
@@ -233,10 +225,7 @@ class Home extends Component {
 // define your styles
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#2c3e50',
+        height: '100%'
     },
     header: {
         backgroundColor: 'transparent',
@@ -260,7 +249,9 @@ const styles = StyleSheet.create({
     },
     content: {
         backgroundColor: 'transparent', 
-        borderRadius: 5
+        borderRadius: 5,
+        marginRight: 6,
+        marginLeft: 6
     },
     swiper: { 
         height: 100, 
@@ -274,9 +265,46 @@ const styles = StyleSheet.create({
     },
     item: {
         backgroundColor: 'white',
-        top: 10,
         paddingHorizontal: 10, 
-        borderRadius: 50
+        borderRadius: 50,
+        width: window.width/1.7,
+        right: 25
+    },
+    view: {
+        flex: 1
+    },
+    views: {  
+        borderTopWidth: 5, 
+        borderTopColor: '#dbdbdb'
+    },
+    product: {
+        borderTopWidth: 4, 
+        marginTop:2, 
+        borderTopColor: '#dbdbdb', 
+        width:window.width
+    },
+    produkview: {
+        flex: 1, 
+        fontSize: 14, 
+        borderBottomColor: '#dbdbdb', 
+        borderBottomWidth: 1
+    },
+    produksview: { 
+        flex: 1, 
+        flexDirection:'row'
+    },
+    icon: {
+        fontSize: 30,  
+        alignItems: 'center',
+    },
+    iconview: { 
+        flexDirection: 'column', 
+        borderRadius: 5, 
+        height: 60, width:(window.width/5.5),  
+        borderColor: '#dbdbdb', 
+        borderWidth: 2, 
+        marginLeft: 3, 
+        alignItems:'center'
     }
 });
 

@@ -22,7 +22,7 @@ const RootStack = createStackNavigator({
     Buy: {screen: Buy}
 },
 {
-  initialRouteName: 'Home',
+  initialRouteName: 'Akun',
   headerMode: 'none',
 })
   
