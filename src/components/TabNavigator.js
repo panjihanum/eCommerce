@@ -5,14 +5,14 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import HomeScreen from '../screens/Home'
 import Feed from '../components/TopNavigator'
 import OS from '../screens/OS'
-import Keranjang from '../screens/Keranjang'
-import Akun from '../screens/Akun'
+import Wishlist from '../screens/Wishlist'
+import Account from '../screens/Account'
 import { createAppContainer } from 'react-navigation';
 
 
 
 const TabNavigator = createMaterialBottomTabNavigator({
-    Home: { screen: HomeScreen, 
+    Home: { screen: HomeScreen,                                 
         navigationOptions:{
         tabBarLabel:'Home',
         
@@ -49,9 +49,9 @@ const TabNavigator = createMaterialBottomTabNavigator({
             )
         }},
         
-    Keranjang: { screen : Keranjang, 
+    Wishlist: { screen : Wishlist, 
         navigationOptions:{
-            tabBarLabel:'Keranjang',
+            tabBarLabel:'Wishlist',
             
             tabBarIcon: ({tintColor, focused}) => (
                 <Icon
@@ -61,9 +61,9 @@ const TabNavigator = createMaterialBottomTabNavigator({
                 />
             )
         }},
-    Akun: { screen : Akun, 
+    Account: { screen : Account, 
         navigationOptions:{
-            tabBarLabel:'Akun',
+            tabBarLabel:'Account',
             tabBarIcon: ({tintColor, focused}) => (
                 <Icon
                     name="account-circle"

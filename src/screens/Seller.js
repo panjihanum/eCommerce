@@ -3,11 +3,11 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 // create a component
-class AkunJual extends Component {
+class Seller extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text>AkunJual</Text>
+                <Text>Seller</Text>
             </View>
         );
     }
@@ -24,4 +24,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default AkunJual;
+export default Seller;

@@ -11,35 +11,34 @@ import axios from 'axios';
 const window = Dimensions.get('window')
 
 
-class Akun extends Component {
+class Account extends Component {
     constructor(){
         super()
         this.state={
             username: "",
             password: "",
-            data : []
         }
     }
 
     login = () => {
-        const username = this.state.username
-        const password = this.state.password
-
-        return this.state.data.forEach((val, i) => {
-            if(val.username === username && val.password === password ){
-                this.props.navigation.navigate("Home")
-            }
-            else{
-                alert("Username atau password anda salah")
+        axios({
+            method: 'post',
+            url: 'http://192.168.0.51:3333/api/v1/users/login',
+            data: {
+                "username" : this.state.username,
+                "password" : this.state.password
             }
         })
+        .then((response)=>{
+            this.props.navigation.navigate("Home")
+        })
+        .catch(err => alert("Username atau passwrod yang anda masukkan Salah"));
+
+        
+
     }
     componentDidMount(){
-        axios.get("http://192.168.0.51:3333/api/v1/users").then(response=>{
-            this.setState({
-                data: response.data.data
-            })
-        })
+
     }
     render() {
         return (
@@ -48,9 +47,9 @@ class Akun extends Component {
                 <Icon name="home" style={{fontSize: 40, color: 'white', justifyContent: 'center'}} />
             </Header>
             <Content>
-
                 <ScrollView>
                     <View>
+          
                         <TextInput style={styles.inputBox} underlineColorAndroid="#dbdbdb"
                             placeholder="username"
                             placeholderTextColor="#fff"
@@ -78,6 +77,7 @@ class Akun extends Component {
 
 // define your styles
 const styles = StyleSheet.create({
+
     container: {
         flex: 1,
         justifyContent: 'center',
@@ -106,13 +106,13 @@ const styles = StyleSheet.create({
         marginTop: 20,
         height: window.height / 1.3
     },
-    email:{
+    username:{
         width: window.width / 1.1
     },
-    emailtext: {
+    usernametext: {
 
     },
-    emailtextinput: {
+    usernametextinput: {
         width: '100%',
         borderColor: 'black',
         borderRadius: 12,
@@ -142,4 +142,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default Akun;
+export default Account;

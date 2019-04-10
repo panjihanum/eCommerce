@@ -6,23 +6,23 @@ import { createDrawerNavigator, createStackNavigator, createBottomTabNavigator, 
 import HomeScreen from '../components/TabNavigator'
 import Feed from '../screens/Feed'
 import FeedExplore from '../screens/FeedExplore'
-import Keranjang from '../screens/Keranjang'
-import Akun from '../screens/Akun'
-import AkunJual from '../screens/AkunJual'
+import Wishlist from '../screens/Wishlist'
+import Account from '../screens/Account'
+import Seller from '../screens/Seller'
 import Product from '../screens/Product'
 import Buy from '../screens/Buy'
 const RootStack = createStackNavigator({
     Home: { screen: HomeScreen },
     Feed: { screen: Feed },
     FeedExplore: { screen : FeedExplore},
-    Keranjang: { screen: Keranjang},
-    Akun: { screen: Akun },
-    AkunJual: { screen: AkunJual},
+    Wishlist: { screen: Wishlist},
+    Account: { screen: Account },
+    Seller: { screen: Seller},
     Product: { screen: Product},
     Buy: {screen: Buy}
 },
 {
-  initialRouteName: 'Akun',
+  initialRouteName: 'Account',
   headerMode: 'none',
 })
   

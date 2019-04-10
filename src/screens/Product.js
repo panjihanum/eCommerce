@@ -135,7 +135,7 @@ class Product extends Component {
                 </Content>
                 <Footer style={styles.footer}>
                     <View style={styles.footerview}>
-                        <AwesomeButton progress onPress={() => this.props.navigation.navigate("Keranjang",{
+                        <AwesomeButton progress onPress={() => this.props.navigation.navigate("Wishlist",{
                             itemKey: key,
                             itemPrice: pricediscount,
                             itemName: name,

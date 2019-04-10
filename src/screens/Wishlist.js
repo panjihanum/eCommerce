@@ -17,7 +17,7 @@ function convertToRupiah(angka){
             return 'Rp. '+rupiah.split('', rupiah.length-1).reverse().join('');
 }
 
-class Keranjang extends Component {
+class Wishlist extends Component {
     constructor(props){
         super(props);
         this.state={
@@ -365,5 +365,5 @@ const styles = StyleSheet.create({
     }
 });
 //make this component available to the app
-export default Keranjang;
+export default Wishlist;
 
