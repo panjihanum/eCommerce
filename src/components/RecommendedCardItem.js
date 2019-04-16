@@ -17,7 +17,7 @@ class RecommendedCardItem extends Component {
             <TouchableOpacity onPress={this.props.onPress}>
             <Card style={{ flex: 0, height:window.height/4.1,  width:window.width/3.1, }}>
                 <CardItem cardBody>
-                    <Image style={{ height: 90, width: '100%'}} source={this.props.itemImage}/>
+                    <Image style={{ height: 90, width: '100%'}} source={{uri : this.props.itemImage}}/>
                 </CardItem>
                 <CardItem>
                     <Body stlye={{flexDirection: 'row',}}>

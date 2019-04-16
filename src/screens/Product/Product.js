@@ -4,9 +4,12 @@ import { Dimensions, Image, View, Text, StyleSheet, ScrollView, TouchableOpacity
 import { Content, Footer, Header,Input, Container,  Item, } from 'native-base'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import Swiper from 'react-native-swiper'
-import { whileStatement } from '@babel/types';
-import {Button} from 'react-native-elements'
 import AwesomeButton from 'react-native-really-awesome-button'
+
+import { connect } from 'react-redux';
+import { getProductsById } from '../../redux/actions/products.actions'
+import { addCarts } from '../../redux/actions/carts.action'
+
 const Width= () => {Dimensions.get('window').width};
 // create a component
 
@@ -23,23 +26,35 @@ const window = Dimensions.get('window');
 class Product extends Component {
     constructor(props){
         super(props);
-
+        this.state= {
+            data: []
+        }
     }
+
+    _onPress = (id) => {
+        this.props.dispatch(addCarts(id)),
+        this.props.navigation.navigate("Wishlist",{
+            id : data.id
+            // itemKey: key,
+            // itemPrice: pricediscount,
+            // itemName: name,
+            // itemImage: img,
+            // itemDetails: detail,
+        })
+    }
+    componentDidMount() {
+        const id = this.props.navigation.getParam("id","")
+        return this.props.dispatch(getProductsById(id));
+    }   
     render() {
-        
-        const {navigation} = this.props;
-        const key = navigation.getParam("itemKey", "")
-        const name = navigation.getParam("itemName", "")
-        const img = navigation.getParam("itemImage", "")
-        const price = navigation.getParam("itemPrice", "")
-        const pricediscount = navigation.getParam("itemPriceDiscount", "")
-        const detail = navigation.getParam("itemDetail", "")
+        data = this.props.data;
+        const pic = "http://192.168.0.51:3333/uploads/" + data.picture1
         return (
             <Container>
                 <Header style={{backgroundColor:'transparent', borderRadius: 3}}>
                     
                     <View style={styles.headerSearch}>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate("Home")}>
+                        <TouchableOpacity onPress={() => alert(data.picture1)}>
                             <Icon name='arrow-back' style={{fontSize: 25}}/>
                         </TouchableOpacity>
                         <View style={styles.headerSearchMiddle}>
@@ -55,19 +70,19 @@ class Product extends Component {
                             <View style={{flex: 1}}>
                                 <Image
                                     style={styles.imgSwiper}
-                                    source={img}
+                                    source={{uri : pic}}
                                 />
                             </View>
                             <View style={{flex: 1}}>
                                 <Image
                                     style={styles.imgSwiper}
-                                    source={img}
+                                    source={{uri : pic}}
                                 />
                             </View>
                             <View style={{flex: 1}}>
                                 <Image
                                     style={styles.imgSwiper}
-                                    source={img}
+                                    source={{uri : pic}}
                                 /> 
                             </View>
                         </Swiper>
@@ -79,7 +94,7 @@ class Product extends Component {
                                     </Text>
                                 </View>
                                 <View style={{flex: 1}}>
-                                    <Text>Stok terbatas! Tersedia > 50 </Text> 
+                                    <Text>Stok terbatas! Tersedia = {data.stock} </Text> 
                                 </View>
                             </View>
                             <View style={{flex: 1.5}}>
@@ -89,15 +104,15 @@ class Product extends Component {
                         <View stlye={{flexDirection: 'row', backgroundColor:'#dbdbdb', height:200,}}>
                             <View style={{flex: 1, flexDirection:'row', marginRight:4, marginLeft:10}}>
                                 <View style={{flex: 1.5,}}>
-                                    <Text style={{fontSize:20, fontWeight: 'bold',}}>{name}</Text>
+                                    <Text style={{fontSize:20, fontWeight: 'bold',}}>{data.name}</Text>
                                 </View>
                                 <View style={{flex: 1, }}>
                                 </View>
                             </View>
                             <View style={{flex: 1, flexDirection: 'row', borderBottomColor: '#dbdbdb', borderBottomWidth: 1,  marginRight:4, marginLeft:10}}>
                                 <View style={{flex: 1.5}}>
-                                    <Text style={{fontSize: 15,textDecorationLine: 'line-through', color: 'red',}}>{convertToRupiah(price)}</Text>
-                                    <Text style={{fontSize: 20, fontWeight:'bold'}}> {convertToRupiah(pricediscount)}</Text>
+                                    <Text style={{fontSize: 15,textDecorationLine: 'line-through', color: 'red',}}>{convertToRupiah(Number(data.price))}</Text>
+                                    <Text style={{fontSize: 20, fontWeight:'bold'}}> {convertToRupiah(Number(data.price))}</Text>
                                 </View>
                                 <View style={{flex: 1}}>
                                 
@@ -121,13 +136,13 @@ class Product extends Component {
                                     Min.Pembelian :
                                 </Text>
                                 <Text style={styles.textDetail}>
-                                    Kondisi :
+                                    Kondisi : {data.condition}
                                 </Text>
                                 <Text style={{fontSize:18, fontWeight:'bold'}}>
                                     Deskripsi Produk
                                 </Text>
                                 <Text style={{fontSize:14}}>
-                                    {detail}
+                                    {data.description}
                                 </Text>
                             </View>
                         </View>
@@ -135,19 +150,20 @@ class Product extends Component {
                 </Content>
                 <Footer style={styles.footer}>
                     <View style={styles.footerview}>
-                        <AwesomeButton progress onPress={() => this.props.navigation.navigate("Wishlist",{
-                            itemKey: key,
-                            itemPrice: pricediscount,
-                            itemName: name,
-                            itemImage: img,
-                            itemDetails: detail,
-                        })} > Tambahkan Ke Keranjang </AwesomeButton>
+                        <AwesomeButton progress onPress={() => this._onPress(data.id)} > Tambahkan Ke Keranjang </AwesomeButton>
                     </View>
                 </Footer>
             </Container>
         );
     }
 }
+
+const mapStateToProps = (state) => {
+    return{
+        data: state.products.data
+    }
+}
+
 
 // define your styles
 const styles = StyleSheet.create({
@@ -208,4 +224,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default Product;
+export default connect(mapStateToProps)(Product);

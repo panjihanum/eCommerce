@@ -1,11 +1,14 @@
 //import liraries
 import React, { Component } from 'react';
-import { Dimensions, View, Button, Text, StyleSheet, FlatList,  ScrollView, Image,TouchableOpacity } from 'react-native';
+import { Dimensions, View, Button, Text, StyleSheet, FlatList,  ScrollView, Image,TouchableOpacity, AsyncStorage } from 'react-native';
 import { Container, Header, Right, Left, Content,Body,   Input, Item} from 'native-base'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import Swiper from 'react-native-swiper'
-
 import CardItems from '../components/RecommendedCardItem'
+import Axios from 'axios';
+
+import { connect } from 'react-redux';
+import { getProducts } from '../redux/actions/products.actions'
 // create a component
 const window = Dimensions.get('window')
 function convertToRupiah(angka){
@@ -17,104 +20,22 @@ function convertToRupiah(angka){
             return 'Rp. '+rupiah.split('', rupiah.length-1).reverse().join('');
 }
 
-class Home extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            itemDetail:[{
-                key: "a",
-                name: 'Laptop AllienWare',
-                img:require('../assets/laptop.png'),
-                price:'25000000',
-                pricediscount:'20000000',
-                detail:'Laptop Yang murah dan terjangkau',
 
-            },{
-                key:"b",
-                name: "Samsung Galaxy S9 RAM 6/64",
-                img:require('../assets/samsungs9.jpg'),
-                detail:'Hp Murah dan terjangkau',
-                price:'9000000',
-                pricediscount:'8000000'
-            },{
-                key :"c",
-                name: 'Laptop Acer E5-475G',
-                img:require('../assets/AcerE5.jpg'),
-                price:'8000000',
-                pricediscount:'7000000',
-                detail:'Laptop Yang murah dan terjangkau'
-            },{
-                key :"d",
-                name: 'Laptop AllienWare',
-                img:require('../assets/laptop.png'),
-                price:'25000000',
-                pricediscount:'20000000',
-                detail:'Laptop Yang murah dan terjangkau'
-            },{
-                key :"e",
-                name: 'Laptop AllienWare',
-                img:require('../assets/laptop.png'),
-                price:'25000000',
-                pricediscount:'20000000',
-                detail:'Laptop Yang murah dan terjangkau'
-            },{
-                key :"f",
-                name: 'Laptop AllienWare',
-                img:require('../assets/laptop.png'),
-                price:'25000000',
-                pricediscount:'20000000',
-                detail:'Laptop Yang murah dan terjangkau',
-            }
-            ],menuanimation: [{
-                key:"a",
-               
-                icon: "dashboard",
-                text: 'Semua Kategori',
-            },{
-                key:"b",
-                icon: "home",
-                text: 'Belanja'
-            },{
-                key:"c",
-                icon: "home",
-                text: "Top-Up & Tagihan"
-            },{
-                key:"d",
-                icon: "local-airport",
-                text: "Travel & Entertaiment"
-            },{
-                key:"e",
-                icon: "account-balance",
-                text: "Keuangan"
-            },{
-                key:"f",
-                icon: "verified-user",
-                text: "Official Store"
-            },{
-                key:"g",
-                icon: "directions-railway",
-                text: "Tiket Kereta"
-            },{
-                key:"h",
-                icon: "business-center",
-                text: "Emas"
-            },{
-                key:"i",
-                icon: "home",
-                text: "Afiliasi"
-            },{
-                key:"j",
-                icon: "mood",
-                text: "Semua Promo"
-            },]
-        };
+
+class Home extends Component {
+    constructor() {
+        super();
     }
 
     static navigationOptions = {
         title: "Home"
     };
     
-
+    componentDidMount() {
+        this.props.navigation.addListener('didFocus', () => {
+            this.props.dispatch(getProducts());
+        })
+    }
     render() {
         return (
             <Container style={styles.container}>
@@ -160,7 +81,7 @@ class Home extends Component {
                     {/* Column menu */}
                     <View style={{marginTop: 5, backgroundColor: 'white',  borderTopWidth: 5, borderTopColor: '#dbdbdb', justifyContent: 'center'}}>
                     <View style={{ marginTop: 4, resizeMode: 'contain'}}>
-                            <FlatList
+                            {/* <FlatList
                             contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}
                             data={this.state.menuanimation}
                             numColumns = '5'
@@ -178,7 +99,7 @@ class Home extends Component {
                                     </View>
                                 </TouchableOpacity>
                             )}
-                            />
+                            /> */}
                         </View>
                         {/* Product */}
                         <View style={styles.product}> 
@@ -190,24 +111,19 @@ class Home extends Component {
                             <View style={styles.produksview}>
                                 <FlatList
                                 contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}
-                                data={this.state.itemDetail}
+                                data={this.props.data}
+                                numColumns = '3'
                                 renderItem={({ item }) => (
-                                    <CardItems itemImage= {item.img}
+                                    <CardItems itemImage= {"http://192.168.0.51:3333/uploads/" + item.picture1}
                                         itemPrice= {convertToRupiah(item.price)}
-                                        itemPriceDiscount={convertToRupiah(item.pricediscount)}
+                                        itemPriceDiscount={convertToRupiah(item.price)}
                                         onPress={() => {
                                             this.props.navigation.navigate("Product",{
-                                                itemKey: item.key,
-                                                itemName: item.name,
-                                                itemImage: item.img,
-                                                itemPrice: item.price,
-                                                itemPriceDiscount: item.pricediscount,
-                                                itemDetail: item.detail,
+                                                id: item.id
                                             })
                                         }}
                                     />
                                 )}
-                                numColumns= '3'
                                 />
                             </View>
                         </View >
@@ -219,6 +135,13 @@ class Home extends Component {
                 </Content>
         </Container>
         );
+    }
+}
+
+const mapStateToProps = (state) => {
+    return{
+        data: state.products.data,
+        total: state.products.total
     }
 }
 
@@ -309,4 +232,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default Home;
+export default connect(mapStateToProps)(Home)

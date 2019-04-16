@@ -1,16 +1,19 @@
 import React from 'react';
-import { Text, View } from 'react-native';
-import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
+import { Platform, Text, View } from 'react-native';
+import { Provider } from 'react-redux';
 import RootStack from './src/components/RootStack'
-
-
-class HomeScreen extends React.Component {
+import store from './src/redux/store'
+class App extends React.Component {
   render() {
     return (
-      <RootStack />
+      <Provider store={store}>
+        <RootStack />
+      </Provider>
     );
   }
 }
 
 
-export default HomeScreen;
+export default App;
+
+console.disableYellowBox = true;

@@ -7,8 +7,6 @@ import FeedExplore from '../screens/FeedExplore'
 
 import { createAppContainer } from 'react-navigation';
 
-
-
 const TopNavigator = createMaterialTopTabNavigator({
     Feed: { screen: Feed, 
         navigationOptions:{
