@@ -22,6 +22,7 @@
     "react-navigation-material-bottom-tabs": "^1.0.0",
     "react-redux": "^6.0.1",
     "redux": "^4.0.1",
+    "redux-logger": "^3.0.6",
     "redux-promise-middleware": "^6.1.0"
   },
   "devDependencies": {

@@ -15,15 +15,15 @@ class Account extends Component {
     constructor(){
         super()
         this.state={
-            username: "",
-            password: "",
+            username: "panji",
+            password: "panji",
         }
     }
 
-    login = () => {
+    Register = () => {
         axios({
             method: 'post',
-            url: 'http://192.168.0.51:3333/api/v1/users/login',
+            url: 'http://192.168.0.51:3333/api/v1/users/register',
             data: {
                 "username" : this.state.username,
                 "password" : this.state.password
@@ -37,36 +37,55 @@ class Account extends Component {
         
 
     }
-    componentDidMount(){
 
-    }
     render() {
         return (
         <Container style={styles.container}>
-            <Header style={{backgroundColor: 'transparent'}} >
-                <Icon name="home" style={{fontSize: 40, color: 'white', justifyContent: 'center'}} />
+            <Header style={{ width: "100%",backgroundColor: 'transparent'}} >
+                <Body style={{justifyContent:'center',alignItems: 'center'}}>
+                    <Text style={{ fontSize: 30,  color:'white'}}> HANUMPEDIA </Text>
+                </Body>
             </Header>
             <Content>
                 <ScrollView>
                     <View>
-          
                         <TextInput style={styles.inputBox} underlineColorAndroid="#dbdbdb"
                             placeholder="username"
-                            placeholderTextColor="#fff"
+                            placeholderTextColor="#dbdbdb"
                             onChangeText={(input) => this.setState({username: input})}
+                        />
+                        <TextInput style={styles.inputBox} underlineColorAndroid="#dbdbdb"
+                            placeholder="email"
+                            placeholderTextColor="#dbdbdb"
+                            onChangeText={(input) => this.setState({email: input})}
                         />
                         <TextInput style={styles.inputBox} underlineColorAndroid="#dbdbdb"
                             placeholder="password"
                             secureTextEntry={true}
-                            placeholderTextColor="#ffffff"
+                            placeholderTextColor="#dbdbdb"
                             onChangeText={(input) => this.setState({password: input})}
                         />
-                        <TouchableOpacity style={styles.button} onPress={() => this.login()}>
-                            <Text style={styles.buttonText}>Login</Text>
+                        <TextInput style={styles.inputBox} underlineColorAndroid="#dbdbdb"
+                            placeholder="confirm_password"
+                            secureTextEntry={true}
+                            placeholderTextColor="#dbdbdb"
+                            onChangeText={(input) => this.setState({confirm_password: input})}
+                        />
+                        <TextInput style={styles.inputBox} underlineColorAndroid="#dbdbdb"
+                            keyboardType= "numeric"
+                            placeholder="nomor hp"
+                            placeholderTextColor="#dbdbdb"
+                            onChangeText={(input) => this.setState({num_hp: input})}
+                        />
+                        <TouchableOpacity style={styles.button} onPress={() => this.Register()}>
+                            <Text style={styles.buttonText}>Register</Text>
                         </TouchableOpacity>
                     </View>
-                    <View>
-
+                    <View style={styles.register}>
+                        <Text style={styles.text}>Sudah terdaftar ? </Text>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate("Account")}>
+                            <Text style={styles.textClick}>Klik disini</Text>
+                        </TouchableOpacity>
                     </View>
                 </ScrollView>
             </Content>
@@ -120,18 +139,30 @@ const styles = StyleSheet.create({
     inputBox: {
         width:300,
         backgroundColor: 'rgba(255,255,255,0.2)',
-        borderRadius : 25,
+        borderRadius : 12,
         paddingHorizontal: 16,
         fontSize: 16,
-        color: '#dbdbdb',
+        color: '#fff',
         marginVertical: 10,
     },
     button: {
+        top: 10,
         width: 300,
         backgroundColor: '#1c313a',
-        borderRadius: 25,
+        borderRadius: 52,
         marginVertical: 10,
         paddingVertical: 13,
+    },
+    text: {
+        marginTop: 25,
+        color: "#dbdbdb",
+        fontSize: 15
+    },
+    textClick: {
+        color: "red",
+        fontSize: 12,
+        textDecorationLine: 'underline',
+        fontStyle: 'italic'
     },
     buttonText: {
         fontSize: 16,

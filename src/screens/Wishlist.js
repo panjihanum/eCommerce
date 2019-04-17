@@ -4,7 +4,7 @@ import { View, Text,Button, StyleSheet, FlatList, Dimensions, ScrollView, Image,
 import { Container,  Left, Content, Header, Card, CardItem, Body, Right, Footer} from 'native-base'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import axios from 'axios'
-import { addCarts, getCarts} from '../redux/actions/carts.action'
+import { getCarts, incQty, decQty, textQty, deleteCarts} from '../redux/actions/carts.action'
 import { connect } from 'react-redux'
 
 const window= Dimensions.get('window')
@@ -22,86 +22,100 @@ function convertToRupiah(angka){
 class Wishlist extends Component {
     constructor(props){
         super(props);
+        
     }
 
 
-    _onDelete(key) {
-        axios({
-            method: "delete",
-            url: "http://192.168.0.51:3333/api/v1/wishlist/" + key,
-        }).then((response) => {
-            axios({
-                method: "get",
-                url: "http://192.168.0.51:3333/api/v1/wishlist/",
-            }).then((response) => {
-                this.setState({
-                    data: response.data.data,
-                    total: response.data.total
-                })
-            })
-        })
+    _incQty = (qty, id) => {
+        this.props.dispatch(incQty(qty, id))
+        // this.props.dispatch(getCarts())
+    }
+
+    _decQty = (qty, id) => {
+        this.props.dispatch(decQty(qty, id))
     }
 
 
-    _decrementData = (quantity, id) => {
-        axios({
-            method: "patch",
-            url: "http://192.168.0.51:3333/api/v1/wishlist/" + id,
-            data:{
-                quantity: quantity - 1
-            }
-        }).then((response) => {
-            axios({
-                method: "get",
-                url: "http://192.168.0.51:3333/api/v1/wishlist/",
-            }).then((response) => {
-                this.setState({
-                    data: response.data.data,
-                    total: response.data.total
-                })
-            })
-        })
-    }
+
+
+    // _onDelete(key) {
+    //     axios({
+    //         method: "delete",
+    //         url: "http://192.168.0.51:3333/api/v1/wishlist/" + key,
+    //     }).then((response) => {
+    //         axios({
+    //             method: "get",
+    //             url: "http://192.168.0.51:3333/api/v1/wishlist/",
+    //         }).then((response) => {
+    //             this.setState({
+    //                 data: response.data.data,
+    //                 total: response.data.total
+    //             })
+    //         })
+    //     })
+    // }
+
+
+    // _decrementData = (quantity, id) => {
+    //     axios({
+    //         method: "patch",
+    //         url: "http://192.168.0.51:3333/api/v1/wishlist/" + id,
+    //         data:{
+    //             quantity: quantity - 1
+    //         }
+    //     }).then((response) => {
+    //         axios({
+    //             method: "get",
+    //             url: "http://192.168.0.51:3333/api/v1/wishlist/",
+    //         }).then((response) => {
+    //             this.setState({
+    //                 data: response.data.data,
+    //                 total: response.data.total
+    //             })
+    //         })
+    //     })
+    // }
     
-    _incrementData = (quantity,  id) => {
-        axios({
-            method: "patch",
-            url: "http://192.168.0.51:3333/api/v1/wishlist/" + id,
-            data:{
-                quantity: quantity + 1
-            }
-        }).then((response) => {
-            axios({
-                method: "get",
-                url: "http://192.168.0.51:3333/api/v1/wishlist/",
-            }).then((response) => {
-                this.setState({
-                    data: response.data.data,
-                    total: response.data.total
-                })
-            })
-        })
-    }
+    // _incrementData = (quantity,  id) => {
+    //     axios({
+    //         method: "patch",
+    //         url: "http://192.168.0.51:3333/api/v1/wishlist/" + id,
+    //         data:{
+    //             quantity: quantity + 1
+    //         }
+    //     }).then((response) => {
+    //         axios({
+    //             method: "get",
+    //             url: "http://192.168.0.51:3333/api/v1/wishlist/",
+    //         }).then((response) => {
+    //             this.setState({
+    //                 data: response.data.data,
+    //                 total: response.data.total
+    //             })
+    //         })
+    //     })
+    // }
 
-    _onChangeText = (id, val) => {
-        axios({
-            method: "patch",
-            url: "http://192.168.0.51:3333/api/v1/wishlist/" + id,
-            data:{
-                quantity: val
-            }
-        }).then((response) => {
-            axios({
-                method: "get",
-                url: "http://192.168.0.51:3333/api/v1/wishlist/",
-            }).then((response) => {
-                this.setState({
-                    data: response.data.data,
-                    total: response.data.total
-                })
-            })
-        })
-    }
+    // _onChangeText = (id, val) => {
+    //     axios({
+    //         method: "patch",
+    //         url: "http://192.168.0.51:3333/api/v1/wishlist/" + id,
+    //         data:{
+    //             quantity: val
+    //         }
+    //     }).then((response) => {
+    //         axios({
+    //             method: "get",
+    //             url: "http://192.168.0.51:3333/api/v1/wishlist/",
+    //         }).then((response) => {
+    //             this.setState({
+    //                 data: response.data.data,
+    //                 total: response.data.total
+    //             })
+    //         })
+    //     })
+    // }
+
 
 
     // _onDelete(key) {
@@ -233,10 +247,8 @@ class Wishlist extends Component {
 
    
     componentDidMount(){
-
-
         this.props.navigation.addListener('didFocus', () =>{
-            const {navigation} = this.props;
+
             this.props.dispatch(getCarts())
             // axios({
 
@@ -298,19 +310,19 @@ class Wishlist extends Component {
                                         </Body>
                                         <View style={styles.incdecview}>
                                             <Card style={styles.incdec}>
-                                                <TouchableOpacity onPress={() => this._decrementData(item.quantity, item.id)}>
+                                                <TouchableOpacity onPress={() => this.props.dispatch(decQty(item.quantity, item.id))}>
                                                     <Icon name='arrow-back' style={styles.icon} />
                                                 </TouchableOpacity>
                                             </Card>
-                                            <TextInput style={styles.textInput} onChangeText={(val) => this._onChangeText(item.id, val)}>{item.quantity}</TextInput>
+                                            <TextInput style={styles.textInput} onChangeText={(val) => this.props.dispatch(textQty(val, item.id))}>{item.quantity}</TextInput>
                                             <Card style={styles.incdec}>    
-                                                <TouchableOpacity onPress={() => this._incrementData(item.quantity, item.id)} > 
+                                                <TouchableOpacity onPress={() => this.props.dispatch(incQty(item.quantity, item.id))} > 
                                                         <Icon name='arrow-forward' style={styles.icon} />
                                                 </TouchableOpacity>
                                             </Card>
                                         </View>
                                         <Right>
-                                            <TouchableOpacity onPress={() => this._onDelete(item.id)}>
+                                            <TouchableOpacity onPress={() => this.props.dispatch(deleteCarts(item.id))}>
                                                 <Icon name="delete" style={styles.icons} />
                                             </TouchableOpacity>
                                         </Right>

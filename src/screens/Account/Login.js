@@ -41,30 +41,34 @@ class Account extends Component {
     render() {
         return (
         <Container style={styles.container}>
-            <Header style={{backgroundColor: 'transparent'}} >
-                <Icon name="home" style={{fontSize: 40, color: 'white', justifyContent: 'center'}} />
+            <Header style={{ width: "100%",backgroundColor: 'transparent'}} >
+                <Body style={{justifyContent:'center',alignItems: 'center'}}>
+                    <Text style={{ fontSize: 30,  color:'white'}}> HANUMPEDIA </Text>
+                </Body>
             </Header>
             <Content>
                 <ScrollView>
                     <View>
-          
                         <TextInput style={styles.inputBox} underlineColorAndroid="#dbdbdb"
                             placeholder="username"
-                            placeholderTextColor="#fff"
+                            placeholderTextColor="#dbdbdb"
                             onChangeText={(input) => this.setState({username: input})}
                         />
                         <TextInput style={styles.inputBox} underlineColorAndroid="#dbdbdb"
                             placeholder="password"
                             secureTextEntry={true}
-                            placeholderTextColor="#ffffff"
+                            placeholderTextColor="#dbdbdb"
                             onChangeText={(input) => this.setState({password: input})}
                         />
                         <TouchableOpacity style={styles.button} onPress={() => this.login()}>
                             <Text style={styles.buttonText}>Login</Text>
                         </TouchableOpacity>
                     </View>
-                    <View>
-
+                    <View style={styles.register}>
+                        <Text style={styles.text}>Anda belum pernah mendaftar ? </Text>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate("AccountRegister")}>
+                            <Text style={styles.textClick}>Klik disini untuk mendaftar</Text>
+                        </TouchableOpacity>
                     </View>
                 </ScrollView>
             </Content>
@@ -118,18 +122,30 @@ const styles = StyleSheet.create({
     inputBox: {
         width:300,
         backgroundColor: 'rgba(255,255,255,0.2)',
-        borderRadius : 25,
+        borderRadius : 12,
         paddingHorizontal: 16,
         fontSize: 16,
-        color: '#dbdbdb',
+        color: '#fff',
         marginVertical: 10,
     },
     button: {
+        top: 10,
         width: 300,
         backgroundColor: '#1c313a',
-        borderRadius: 25,
+        borderRadius: 52,
         marginVertical: 10,
         paddingVertical: 13,
+    },
+    text: {
+        marginTop: 25,
+        color: "#dbdbdb",
+        fontSize: 15
+    },
+    textClick: {
+        color: "red",
+        fontSize: 12,
+        textDecorationLine: 'underline',
+        fontStyle: 'italic'
     },
     buttonText: {
         fontSize: 16,

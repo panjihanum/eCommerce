@@ -25,6 +25,50 @@ function convertToRupiah(angka){
 class Home extends Component {
     constructor() {
         super();
+        this.state = {
+            menuanimation: [{
+                key:"a",
+               
+                icon: "dashboard",
+                text: 'Semua Kategori',
+            },{
+                key:"b",
+                icon: "home",
+                text: 'Belanja'
+            },{
+                key:"c",
+                icon: "home",
+                text: "Top-Up & Tagihan"
+            },{
+                key:"d",
+                icon: "local-airport",
+                text: "Travel & Entertaiment"
+            },{
+                key:"e",
+                icon: "account-balance",
+                text: "Keuangan"
+            },{
+                key:"f",
+                icon: "verified-user",
+                text: "Official Store"
+            },{
+                key:"g",
+                icon: "directions-railway",
+                text: "Tiket Kereta"
+            },{
+                key:"h",
+                icon: "business-center",
+                text: "Emas"
+            },{
+                key:"i",
+                icon: "home",
+                text: "Afiliasi"
+            },{
+                key:"j",
+                icon: "mood",
+                text: "Semua Promo"
+            },]
+        };
     }
 
     static navigationOptions = {
@@ -81,7 +125,7 @@ class Home extends Component {
                     {/* Column menu */}
                     <View style={{marginTop: 5, backgroundColor: 'white',  borderTopWidth: 5, borderTopColor: '#dbdbdb', justifyContent: 'center'}}>
                     <View style={{ marginTop: 4, resizeMode: 'contain'}}>
-                            {/* <FlatList
+                        <FlatList
                             contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}
                             data={this.state.menuanimation}
                             numColumns = '5'
@@ -99,7 +143,7 @@ class Home extends Component {
                                     </View>
                                 </TouchableOpacity>
                             )}
-                            /> */}
+                            />
                         </View>
                         {/* Product */}
                         <View style={styles.product}> 
